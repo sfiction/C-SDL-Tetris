@@ -1,5 +1,5 @@
-#ifndef _CENTER_H
-#define _CENTER_H
+#ifndef _TETRIS_CENTER_H
+#define _TETRIS_CENTER_H
 
 #include <SDL.h>
 #include <SDL_ttf.h>

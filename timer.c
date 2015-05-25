@@ -3,6 +3,7 @@
 
 #include "window.h"
 #include "display.h"
+#include "game.h"
 #include "timer.h"
 
 Uint32 roundCnt;
@@ -16,6 +17,9 @@ Uint32 timerMain(Uint32 interval, void *param){
 		return;
 
 	if (!roundCnt){
+		++fall.x;
+		if (fall.x == ROW_N)
+			fall = getLegalTtsItem();
 	}
 
 	roundCnt = (roundCnt + 1) % roundCntMod;
