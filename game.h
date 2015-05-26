@@ -64,7 +64,7 @@ inline Uint32 getShapeHeight(Uint32 id);
 inline Uint32 getShapeColor(Uint32 id);
 inline Uint32 getRotatedShape(Uint32 id);
 
-int inRange(int x, int y);
+inline Uint32 inRange(int x, int y);
 inline Uint32 isOverUpSide(ttsItem *t);
 inline Uint32 isOverDownSide(ttsItem *t);
 inline Uint32 isOverLeftSide(ttsItem *t);

@@ -38,12 +38,15 @@ void keyboard(SDL_Event *e){
 			switch (key){
 			case SDLK_SPACE:
 				moveBottom(&fallItem);
+				gameUpdate();
+				roundCnt = 1;
 				break;
 			case SDLK_UP:
 				rotateClock(&fallItem);
 				break;
 			case SDLK_DOWN:
-				moveDown(&fallItem);
+				gameUpdate();
+				roundCnt = 1;
 				break;
 			case SDLK_LEFT:
 				moveLeft(&fallItem);

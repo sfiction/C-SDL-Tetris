@@ -55,7 +55,7 @@ void displayHint(){
 		sprintf(str, "New Game\nPress P to\nStart");
 		break;
 	case GAME_End:
-		sprintf(str, "New Game\nPress P to\nStart a new game");
+		sprintf(str, "Finished\nPress P to\nRestart");
 		break;
 	default:
 		str[0] = '\0';

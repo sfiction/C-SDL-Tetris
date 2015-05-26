@@ -47,12 +47,12 @@ inline Uint32 getRotatedAntiShape(Uint32 id){
 	return id / SHAPE_ROTATE * SHAPE_ROTATE	+ (id + 1) % SHAPE_ROTATE;
 }
 
-int inRange(int x, int y){
+inline Uint32 inRange(int x, int y){
 	return 0 <= x && x < PLAY_ROW_N && 0 <= y && y < PLAY_COL_N;
 }
 
 inline Uint32 isOverUpSide(ttsItem *t){
-	return t->x < 0;
+	return t->x < -1;
 }
 
 inline Uint32 isOverDownSide(ttsItem *t){
