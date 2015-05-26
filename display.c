@@ -37,7 +37,7 @@ void displayScoreBoard(){
 	static char str[MAXSL];
 
 //	sprintf(str, "Time Passed:\n%12.3lfs", SDL_GetTicks() / 1000.0);
-	sprintf(str, "Score:\n%12d\nCleared lines:\n%12d");
+	sprintf(str, "Score:\n%12d\nCleared lines:\n%12d", score, clearedLines);
 	displayMessage(gRenderer, str, INFO_POS_X, INFO_POS_Y, FONT_SIZE, &COLOR_WHITE);
 }
 
