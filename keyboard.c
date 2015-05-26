@@ -30,6 +30,10 @@ void keyboard(SDL_Event *e){
 				break;
 			}
 		}
+		else if (key == SDLK_r){
+			initGame();
+			gameStatus = GAME_Active;
+		}
 		else if (gameStatus == GAME_Active){
 			switch (key){
 			case SDLK_SPACE:
