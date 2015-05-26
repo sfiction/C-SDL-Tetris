@@ -16,11 +16,8 @@ Uint32 timerMain(Uint32 interval, void *param){
 	if (gPause)
 		return;
 
-	if (!roundCnt){
-		++fall.x;
-		if (fall.x == ROW_N)
-			fall = getLegalTtsItem();
-	}
+	if (!roundCnt)
+		gameUpdate();
 
 	roundCnt = (roundCnt + 1) % roundCntMod;
 

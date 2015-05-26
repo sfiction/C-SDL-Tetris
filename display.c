@@ -58,15 +58,16 @@ void display(){
 	//play map
 	for (i = 0; i < ROW_N; ++i)
 		for (j = 0; j < COL_N; ++j)
-			if (map[i] & (1 << j))
+			if (map[i][j])
 				drawSmallRect(i, j, mapColor[i][j]);
+			else
+				drawSmallRect(i, j, i << 19 | j << 4);
 
 	//shape
-	ttsShape fs = getConstTtsShape(fall.id);
 	for (i = 0; i < 4; ++i)
 		for (j = 0; j < 4; ++j){
 //			printf("%d %d %x %x %d\n", i, j, fs, 1 << (i << 2 | j), fs & (1 << (i << 2 | j)));
-			if (getShapeDigit(fs, i, j) && inRange(fall.x - i, fall.y + j))
+			if (getShapeBit(fall.id, i, j) && inRange(fall.x - i, fall.y + j))
 				drawSmallRect(fall.x - i, fall.y + j, fall.color);
 		}
 

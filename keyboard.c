@@ -12,27 +12,24 @@ void keyboard(SDL_Event *e){
 	else if (e->type == SDL_KEYDOWN){
 		if ((key = e->key.keysym.sym) == SDLK_ESCAPE)
 			gQuit = 1;
-		else if (key == SDLK_SPACE)
+		else if (key == SDLK_p)
 			gPause ^= 1;
 		else if (!gPause){
 			switch (key){
+			case SDLK_SPACE:
+				moveBottom(&fall);
+				break;
 			case SDLK_UP:
-				//todo
+				rotateAnti(&fall);
 				break;
 			case SDLK_DOWN:
-				++fall.x;
-				if (!isLegal(&fall))
-					--fall.x;
+				moveDown(&fall);
 				break;
 			case SDLK_LEFT:
-				--fall.y;
-				if (!isLegal(&fall))
-					++fall.y;
+				moveLeft(&fall);
 				break;
 			case SDLK_RIGHT:
-				++fall.y;
-				if (!isLegal(&fall))
-					--fall.y;
+				moveRight(&fall);
 				break;
 			default:
 				break;

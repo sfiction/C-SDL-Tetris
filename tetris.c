@@ -25,8 +25,6 @@ void init(){
 	initGame();
 	initDisplay();
 	initTimer();
-
-	//for play part
 }
 
 void close(){

@@ -10,8 +10,8 @@
 
 //time control
 //TIME_SPEED rows / s
-#define TIME_SPEED 2
-#define TIME_ROUND 50
+#define TIME_SPEED 5
+#define TIME_ROUND 60
 #define TIME_PERIOD (1000 / TIME_ROUND)
 
 #define SPACE_SIZE 25
