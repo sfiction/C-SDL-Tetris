@@ -7,10 +7,7 @@
 #include "game.h"
 #include "display.h"
 
-void initDisplay(){
-}
-
-void displayMessage(SDL_Renderer *Renderer, char *message, int x0, int y0, const SDL_Color *color){
+void displaySingleLineMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0, const SDL_Color *color){
 	SDL_Surface *word_S = TTF_RenderText_Solid(Courier_New, message, *color);
 	SDL_Texture *word_T = SDL_CreateTextureFromSurface(gRenderer, word_S);
 
@@ -21,27 +18,64 @@ void displayMessage(SDL_Renderer *Renderer, char *message, int x0, int y0, const
 	SDL_DestroyTexture(word_T);
 }
 
-void displayInformation(){
-	static int cntLine;
+void displayMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0, Uint32 fontSize, const SDL_Color *color){
 	static char str[MAXSL];
-
-	cntLine = 0;
-
-	displayMessage(gRenderer, "Time Passed:", INFO_POS_X, INFO_POS_Y + cntLine++ * FONT_SIZE, &COLOR_WHITE);
-	sprintf(str, "%12.3lfs", SDL_GetTicks() / 1000.0);
-	displayMessage(gRenderer, str, INFO_POS_X, INFO_POS_Y + cntLine++ * FONT_SIZE, &COLOR_WHITE);
-	displayMessage(gRenderer, "Score:", INFO_POS_X, INFO_POS_Y + cntLine++ * FONT_SIZE, &COLOR_WHITE);
-	sprintf(str, "%12d", score);
-	displayMessage(gRenderer, str, INFO_POS_X, INFO_POS_Y + cntLine++ * FONT_SIZE, &COLOR_WHITE);
-	displayMessage(gRenderer, "Cleared Lines:", INFO_POS_X, INFO_POS_Y + cntLine++ * FONT_SIZE, &COLOR_WHITE);
-	sprintf(str, "%12d", clearedLines);
-	displayMessage(gRenderer, str, INFO_POS_X, INFO_POS_Y + cntLine++ * FONT_SIZE, &COLOR_WHITE);
+	static int cntLine;
+	int i = 0, j;
+	
+	for (cntLine = 0; message[i]; ++cntLine){
+		for (j = 0; message[i] != '\n' && message[i] != '\0'; ++i, ++j)
+			str[j] = message[i];
+		i += message[i] == '\n';
+		str[j] = '\0';
+		if (j)
+			displaySingleLineMessage(gRenderer, str, x0, y0 + cntLine * fontSize, color);
+	}
 }
 
-void drawSmallRect(Uint32 row, Uint32 col, ttsColor color){
+void displayScoreBoard(){
+	static char str[MAXSL];
+
+//	sprintf(str, "Time Passed:\n%12.3lfs", SDL_GetTicks() / 1000.0);
+	sprintf(str, "Score:\n%12d\nCleared lines:\n%12d");
+	displayMessage(gRenderer, str, INFO_POS_X, INFO_POS_Y, FONT_SIZE, &COLOR_WHITE);
+}
+
+void displayHint(){
+	static char str[MAXSL];
+
+	switch (gameStatus){
+	case GAME_Active:
+		sprintf(str, "Active\nPress P to\nPause");
+		break;
+	case GAME_Pause:
+		sprintf(str, "Pause\nPress P to\nContinue");
+		break;
+	case GAME_Start:
+		sprintf(str, "New Game\nPress P to\nStart");
+		break;
+	case GAME_End:
+		sprintf(str, "New Game\nPress P to\nStart a new game");
+		break;
+	default:
+		str[0] = '\0';
+		break;
+	}
+	displayMessage(gRenderer, str, HINT_POS_X, HINT_POS_Y, FONT_SIZE, &COLOR_WHITE);
+}
+
+void drawSmallRect(Uint32 x0, Uint32 y0, Uint32 row, Uint32 col, ttsColor color){
 	SDL_SetRenderDrawColor(gRenderer, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff, 0xff);
-	SDL_Rect rect = {PLAY_POS_X + col * COL_SIZE + 1, PLAY_POS_Y + row * ROW_SIZE + 1, COL_SIZE - 2, ROW_SIZE - 2};
+	SDL_Rect rect = {x0 + col * COL_SIZE + 1, y0 + row * ROW_SIZE + 1, COL_SIZE - 2, ROW_SIZE - 2};
 	SDL_RenderFillRect(gRenderer, &rect);
+}
+
+void drawShape(Uint32 x0, Uint32 y0, ttsItem *t){
+	int i, j;
+	for (i = 0; i < 4; ++i)
+		for (j = 0; j < 4; ++j)
+			if (getShapeBit(t->id, i, j) && inRange(t->x - i, t->y + j))
+				drawSmallRect(x0, y0, t->x - i, t->y + j, t->color);
 }
 
 void display(){
@@ -50,34 +84,25 @@ void display(){
 
 	int i, j;
 
-	//play frame
+	//play
 	SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_Rect playFrame = {PLAY_POS_X, PLAY_POS_Y, PLAY_WIDTH, PLAY_HEIGHT};
 	SDL_RenderDrawRect(gRenderer, &playFrame);
+	for (i = 0; i < PLAY_ROW_N; ++i)
+		for (j = 0; j < PLAY_COL_N; ++j)
+			drawSmallRect(PLAY_POS_X, PLAY_POS_Y, i, j, map[i][j] ? mapColor[i][j] : (i << 19 | j << 4));
+	drawShape(PLAY_POS_X, PLAY_POS_Y, &fallItem);
 
-	//play map
-	for (i = 0; i < ROW_N; ++i)
-		for (j = 0; j < COL_N; ++j)
-			if (map[i][j])
-				drawSmallRect(i, j, mapColor[i][j]);
-			else
-				drawSmallRect(i, j, i << 19 | j << 4);
-
-	//shape
-	for (i = 0; i < 4; ++i)
-		for (j = 0; j < 4; ++j){
-//			printf("%d %d %x %x %d\n", i, j, fs, 1 << (i << 2 | j), fs & (1 << (i << 2 | j)));
-			if (getShapeBit(fall.id, i, j) && inRange(fall.x - i, fall.y + j))
-				drawSmallRect(fall.x - i, fall.y + j, fall.color);
-		}
 
 	//next shape
 	SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_Rect nextFrame = {NEXT_POS_X, NEXT_POS_Y, NEXT_WIDTH, NEXT_HEIGHT};
 	SDL_RenderDrawRect(gRenderer, &nextFrame);
+	drawShape(NEXT_POS_X, NEXT_POS_Y, &nextItem);
 
-	//infomation
-	displayInformation();
+	//informations
+	displayScoreBoard();
+	displayHint();
 
 	SDL_RenderPresent(gRenderer);
 }

@@ -20,10 +20,9 @@ void init(){
 	TTF_Init();
 	Courier_New = TTF_OpenFont(FONT_PATH_COURIER_NEW, FONT_SIZE);
 
-	gQuit = gPause = 0;
+	gQuit = 0;
 
 	initGame();
-	initDisplay();
 	initTimer();
 }
 

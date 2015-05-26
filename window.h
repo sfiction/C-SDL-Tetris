@@ -16,26 +16,40 @@
 
 #define SPACE_SIZE 25
 
-//play
+//shape
+#define SHAPE_SIZE 4
 #define SIDE_LENGTH 25
 #define COL_SIZE SIDE_LENGTH
 #define ROW_SIZE SIDE_LENGTH
-#define COL_N 10
-#define ROW_N 20
-#define PLAY_WIDTH (COL_N * COL_SIZE)
-#define PLAY_HEIGHT (ROW_N * ROW_SIZE)
+
+//play
+#define PLAY_COL_N 10
+#define PLAY_ROW_N 20
+#define PLAY_WIDTH (PLAY_COL_N * COL_SIZE)
+#define PLAY_HEIGHT (PLAY_ROW_N * ROW_SIZE)
 #define PLAY_POS_X SPACE_SIZE
 #define PLAY_POS_Y SPACE_SIZE
 
 //next shape
-#define NEXT_WIDTH (SIDE_LENGTH << 2)
-#define NEXT_HEIGHT (NEXT_WIDTH)
+#define NEXT_COL_N SHAPE_SIZE
+#define NEXT_ROW_N SHAPE_SIZE
+#define NEXT_WIDTH (NEXT_COL_N * COL_SIZE)
+#define NEXT_HEIGHT (NEXT_ROW_N * ROW_SIZE)
 #define NEXT_POS_X (PLAY_POS_X + PLAY_WIDTH + SPACE_SIZE)
 #define NEXT_POS_Y PLAY_POS_Y
 
-//information
+//score board
+#define INFO_ROW_N 6
+#define INFO_ROW_SIZE FONT_SIZE
+#define INFO_HEIGHT (INFO_ROW_N * INFO_ROW_SIZE)
 #define INFO_POS_X NEXT_POS_X
 #define INFO_POS_Y (NEXT_POS_Y + NEXT_HEIGHT + SPACE_SIZE)
+
+//hints
+#define HINT_ROW_N 6
+#define HINT_ROW_SIZE FONT_SIZE
+#define HINT_POS_X NEXT_POS_X
+#define HINT_POS_Y (INFO_POS_Y + INFO_HEIGHT + SPACE_SIZE)
 
 //window
 #define TITLE "Tetris"
@@ -55,6 +69,6 @@ extern SDL_Renderer *gRenderer;
 
 extern TTF_Font *Courier_New;
 
-extern Uint32 gQuit, gPause;
+extern Uint32 gQuit;
 
 #endif

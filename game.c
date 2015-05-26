@@ -9,13 +9,15 @@
 #include "window.h"
 #include "game.h"
 
+Uint32 gameStatus;
+
 Uint32 score;
 Uint32 clearedLines;
 
-Uint8 map[ROW_N][COL_N];
-ttsColor mapColor[ROW_N][COL_N];
+Uint8 map[PLAY_ROW_N][PLAY_COL_N];
+ttsColor mapColor[PLAY_ROW_N][PLAY_COL_N];
 
-ttsItem fall;
+ttsItem fallItem, nextItem;
 
 inline ttsShape getConstShape(Uint32 id){
 	return constShape[id / SHAPE_ROTATE][id % SHAPE_ROTATE];
@@ -46,7 +48,7 @@ inline Uint32 getRotatedAntiShape(Uint32 id){
 }
 
 int inRange(int x, int y){
-	return 0 <= x && x < ROW_N && 0 <= y && y < COL_N;
+	return 0 <= x && x < PLAY_ROW_N && 0 <= y && y < PLAY_COL_N;
 }
 
 inline Uint32 isOverUpSide(ttsItem *t){
@@ -54,7 +56,7 @@ inline Uint32 isOverUpSide(ttsItem *t){
 }
 
 inline Uint32 isOverDownSide(ttsItem *t){
-	return t->x >= ROW_N;
+	return t->x >= PLAY_ROW_N;
 }
 
 inline Uint32 isOverLeftSide(ttsItem *t){
@@ -62,7 +64,7 @@ inline Uint32 isOverLeftSide(ttsItem *t){
 }
 
 inline Uint32 isOverRightSide(ttsItem *t){
-	return t->y + getShapeWidth(t->id) - 1 >= COL_N;
+	return t->y + getShapeWidth(t->id) - 1 >= PLAY_COL_N;
 }
 
 inline Uint32 isOverSide(ttsItem *t){
@@ -89,7 +91,7 @@ ttsItem getItem(){
 	ttsItem t;
 	t.id = rand() % SHAPE_N;
 	t.x = 0;
-	t.y = rand() % (COL_N - getShapeWidth(t.id) + 1) + (getShapeWidth(t.id) - 1);
+	t.y = rand() % (PLAY_COL_N - getShapeWidth(t.id) + 1) + (getShapeWidth(t.id) - 1);
 	t.color = getShapeColor(t.id);
 	return t;
 }
@@ -156,7 +158,7 @@ void moveBottom(ttsItem *t){
 
 Uint32 isFull(int i){
 	int j;
-	for (j = 0; j < COL_N; ++j)
+	for (j = 0; j < PLAY_COL_N; ++j)
 		if (!map[i][j])
 			return 0;
 	return 1;
@@ -164,11 +166,11 @@ Uint32 isFull(int i){
 
 Uint32 clearSingleLine(){
 	int i, j;
-	for (i = 0; i < ROW_N && !isFull(i); ++i);
-	if (i == ROW_N)
+	for (i = 0; i < PLAY_ROW_N && !isFull(i); ++i);
+	if (i == PLAY_ROW_N)
 		return 0;
 	for (--i; i >= 0; --i)
-		for (j = 0; j < COL_N; ++j){
+		for (j = 0; j < PLAY_COL_N; ++j){
 			map[i + 1][j] = map[i][j];
 			mapColor[i + 1][j] = mapColor[i][j];
 		}
@@ -185,7 +187,21 @@ void clearLines(){
 	clearedLines += cntLines;
 }
 
-void addItemToMap(ttsItem *t){
+void getNextItem(){
+	nextItem = getItem();
+	nextItem.x = NEXT_ROW_N - 1;
+	nextItem.y = 0;
+}
+
+void nextToFall(){
+	do{
+		fallItem = getLegalItem();
+	}while (fallItem.id != nextItem.id);
+	getNextItem();
+}
+
+Uint32 addItemToMap(ttsItem *t){
+	int overUpSide = 0;
 	int i, j, x, y;
 	for (i = 0; i < SHAPE_SIZE; ++i)
 		for (j = 0; j < SHAPE_SIZE; ++j)
@@ -196,24 +212,33 @@ void addItemToMap(ttsItem *t){
 					map[x][y] = 1;
 					mapColor[x][y] = t->color;
 				}
+				else
+					overUpSide = 1;
 			}
+	return overUpSide;
 }
 
 void gameUpdate(){
-	if (!moveDown(&fall)){
-		addItemToMap(&fall);
+	if (!moveDown(&fallItem)){
+		if (addItemToMap(&fallItem)){
+			gameStatus = GAME_End;
+			return;
+		}
 		clearLines();
-		fall = getLegalItem();
+		nextToFall();
 	}
 }
 
 void initGame(){
+	gameStatus = GAME_Start;
+
 	score = 0;
 	clearedLines = 0;
 
 	srand(time(NULL));
 
-	fall = getLegalItem();
+	fallItem = getLegalItem();
+	getNextItem();
 
 	memset(map, 0, sizeof(map));
 	memset(mapColor, 0, sizeof(mapColor));

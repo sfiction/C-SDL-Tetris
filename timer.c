@@ -13,13 +13,12 @@ void initTimer(){
 }
 
 Uint32 timerMain(Uint32 interval, void *param){
-	if (gPause)
-		return;
+	if (gameStatus == GAME_Active){
+		if (!roundCnt)
+			gameUpdate();
 
-	if (!roundCnt)
-		gameUpdate();
-
-	roundCnt = (roundCnt + 1) % roundCntMod;
+		roundCnt = (roundCnt + 1) % roundCntMod;
+	}
 
 	display();
 

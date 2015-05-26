@@ -19,7 +19,6 @@ typedef Uint32 ttsShape;
  *	4	5	6	7
  *	0	1	2	3
  */
-#define SHAPE_SIZE 4
 #define SHAPE_TYPE 7
 #define SHAPE_ROTATE 4
 #define SHAPE_N (SHAPE_TYPE * SHAPE_ROTATE)
@@ -41,13 +40,22 @@ typedef struct{
 	Uint32 id;
 }ttsItem;
 
+enum{
+	GAME_Active = 0,
+	GAME_Pause = 1,
+	GAME_Start = 2,
+	GAME_End = 3
+};
+
+extern Uint32 gameStatus;
+
 extern Uint32 score;
 extern Uint32 clearedLines;
 
-extern Uint8 map[ROW_N][COL_N];
-extern ttsColor mapColor[ROW_N][COL_N];
+extern Uint8 map[PLAY_ROW_N][PLAY_COL_N];
+extern ttsColor mapColor[PLAY_ROW_N][PLAY_COL_N];
 
-extern ttsItem fall;
+extern ttsItem fallItem, nextItem;
 
 inline ttsShape getConstShape(Uint32 id);
 inline Uint32 getShapeBit(Uint32 id, Uint32 i, Uint32 j);
@@ -80,9 +88,12 @@ Uint32 isFull();
 Uint32 clearSingleLine();
 void clearLines();
 
-void addItemToMap(ttsItem *t);
+void getNextItem();
+void nextToFall();
+Uint32 addItemToMap(ttsItem *t);
 
 void gameUpdate();
 void initGame();
+void endGame();
 
 #endif

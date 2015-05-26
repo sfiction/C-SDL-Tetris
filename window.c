@@ -8,4 +8,4 @@ SDL_Renderer *gRenderer;
 
 TTF_Font *Courier_New;
 
-Uint32 gQuit, gPause;
+Uint32 gQuit;

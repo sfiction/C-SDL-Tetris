@@ -9,11 +9,15 @@
 
 #define MAXSL 200
 
-void initDisplay();
+void displaySingleLineMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0, const SDL_Color *color);
+void displayMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0, Uint32 fontSize, const SDL_Color *color);
 
-void displayMessage(SDL_Renderer *Renderer, char *message, int x0, int y0, const SDL_Color *color);
-void displayInformation();
-void drawSmallRect(Uint32 row, Uint32 col, Uint32 color);
+void displayScoreBoard();
+void displayHint();
+
+void drawSmallRect(Uint32 POS_X, Uint32 POS_Y, Uint32 row, Uint32 col, ttsColor color);
+void drawShape(Uint32 POS_X, Uint32 POS_Y, ttsItem *t);
+
 void display();
 
 #endif
