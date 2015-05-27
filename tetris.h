@@ -1,3 +1,9 @@
+/*
+ * XXX_XXX	#define
+ * XXX_Xxx	enum
+ * xxxXxx	variable or struct
+ */
+
 #ifndef _TETRIS_TETRIS_H
 #define _TETRIS_TETRIS_H
 

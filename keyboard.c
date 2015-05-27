@@ -1,9 +1,9 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "window.h"
 #include "game.h"
 #include "timer.h"
+#include "keyboard.h"
 
 void keyboard(SDL_Event *e){
 	SDL_Keycode key;
@@ -34,6 +34,8 @@ void keyboard(SDL_Event *e){
 			initGame();
 			gameStatus = GAME_Active;
 		}
+		else if (key == SDLK_z || key == SDLK_x)
+			setSpeed(gameSpeed + (key == SDLK_z ? 1 : -1));
 		else if (gameStatus == GAME_Active){
 			switch (key){
 			case SDLK_SPACE:

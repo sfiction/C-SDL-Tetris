@@ -17,7 +17,7 @@ Uint32 timerMain(Uint32 interval, void *param){
 		if (!roundCnt)
 			gameUpdate();
 
-		roundCnt = (roundCnt + 1) % roundCntMod;
+		roundCnt = (roundCnt + 1) % (TIME_ROUND / gameSpeed);
 	}
 
 	display();

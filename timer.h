@@ -8,7 +8,6 @@
 #include "display.h"
 #include "game.h"
 
-static const Uint32 roundCntMod  = TIME_ROUND / TIME_SPEED;
 extern Uint32 roundCnt;
 
 void initTimer();

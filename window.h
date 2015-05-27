@@ -8,9 +8,6 @@
 #define FONT_PATH_COURIER_NEW "src\\fonts\\cour.ttf"
 #define FONT_SIZE 14
 
-//time control
-//TIME_SPEED rows / s
-#define TIME_SPEED 5
 #define TIME_ROUND 60
 #define TIME_PERIOD (1000 / TIME_ROUND)
 

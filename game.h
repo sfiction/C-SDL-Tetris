@@ -47,6 +47,11 @@ enum{
 	GAME_End = 3
 };
 
+#define GAME_SPEED_START 2
+#define GAME_SPEED_LOWER 1
+#define GAME_SPEED_UPPER 20
+
+extern Uint32 gameSpeed;
 extern Uint32 gameStatus;
 
 extern Uint32 score;
@@ -70,7 +75,6 @@ inline Uint32 isOverDownSide(ttsItem *t);
 inline Uint32 isOverLeftSide(ttsItem *t);
 inline Uint32 isOverRightSide(ttsItem *t);
 inline Uint32 isOverSide(ttsItem *t);
-
 Uint32 isLegal(ttsItem *t);
 
 ttsItem getItem();
@@ -92,7 +96,10 @@ void getNextItem();
 void nextToFall();
 Uint32 addItemToMap(ttsItem *t);
 
+Uint32 setSpeed(Uint32 newSpeed);
+
 void gameUpdate();
+
 void initGame();
 void endGame();
 

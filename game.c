@@ -9,6 +9,7 @@
 #include "window.h"
 #include "game.h"
 
+Uint32 gameSpeed;
 Uint32 gameStatus;
 
 Uint32 score;
@@ -97,10 +98,13 @@ ttsItem getItem(){
 }
 
 ttsItem getLegalItem(){
+	static Uint32 cnt;
 	ttsItem t;
+	cnt = 0;
 	do{
 		t = getItem();
-	}while (!isLegal(&t));
+	}while (!isLegal(&t) && ++cnt < 20);
+	t.x = -1;
 	return t;
 }
 
@@ -218,6 +222,13 @@ Uint32 addItemToMap(ttsItem *t){
 	return overUpSide;
 }
 
+Uint32 setSpeed(Uint32 newSpeed){
+	if (newSpeed < GAME_SPEED_LOWER || GAME_SPEED_UPPER < newSpeed)
+		return 0;
+	gameSpeed = newSpeed;
+	return 1;
+}
+
 void gameUpdate(){
 	if (!moveDown(&fallItem)){
 		if (addItemToMap(&fallItem)){
@@ -230,6 +241,7 @@ void gameUpdate(){
 }
 
 void initGame(){
+	gameSpeed = GAME_SPEED_START;
 	gameStatus = GAME_Start;
 
 	score = 0;
