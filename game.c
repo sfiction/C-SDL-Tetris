@@ -92,7 +92,7 @@ ttsItem getItem(){
 	ttsItem t;
 	t.id = rand() % SHAPE_N;
 	t.x = 0;
-	t.y = rand() % (PLAY_COL_N - getShapeWidth(t.id) + 1) + (getShapeWidth(t.id) - 1);
+	t.y = rand() % (PLAY_COL_N - getShapeWidth(t.id) + 1);
 	t.color = getShapeColor(t.id);
 	return t;
 }
@@ -240,8 +240,8 @@ void gameUpdate(){
 	}
 }
 
-void initGame(){
-	gameSpeed = GAME_SPEED_START;
+void initGame(Uint32 speed){
+	setSpeed(speed);
 	gameStatus = GAME_Start;
 
 	score = 0;

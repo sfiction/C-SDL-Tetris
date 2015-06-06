@@ -22,7 +22,7 @@ void init(){
 
 	gQuit = 0;
 
-	initGame();
+	initGame(GAME_SPEED_START);
 	initTimer();
 }
 

@@ -100,7 +100,7 @@ Uint32 setSpeed(Uint32 newSpeed);
 
 void gameUpdate();
 
-void initGame();
+void initGame(Uint32 speed);
 void endGame();
 
 #endif

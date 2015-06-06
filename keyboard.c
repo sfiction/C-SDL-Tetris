@@ -23,7 +23,7 @@ void keyboard(SDL_Event *e){
 				gameStatus = GAME_Active;
 				break;
 			case GAME_End:
-				initGame();
+				initGame(gameSpeed);
 				gameStatus = GAME_Active;
 				break;
 			default:
@@ -31,11 +31,11 @@ void keyboard(SDL_Event *e){
 			}
 		}
 		else if (key == SDLK_r){
-			initGame();
+			initGame(gameSpeed);
 			gameStatus = GAME_Active;
 		}
-		else if (key == SDLK_z || key == SDLK_x)
-			setSpeed(gameSpeed + (key == SDLK_z ? 1 : -1));
+		else if (key == SDLK_a || key == SDLK_f)
+			setSpeed(gameSpeed + (key == SDLK_a ? 1 : -1));
 		else if (gameStatus == GAME_Active){
 			switch (key){
 			case SDLK_SPACE:

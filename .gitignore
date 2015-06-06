@@ -2,3 +2,5 @@
 *.exe
 *~
 *.swp
+publish
+Makefile

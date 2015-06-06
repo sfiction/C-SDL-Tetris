@@ -35,9 +35,12 @@ void displayMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0,
 
 void displayScoreBoard(){
 	static char str[MAXSL];
+	char *pos = str;
 
 //	sprintf(str, "Time Passed:\n%12.3lfs", SDL_GetTicks() / 1000.0);
-	sprintf(str, "Speed:\n%10d\nScore:\n%10d\nCleared lines:\n%10d", gameSpeed, score, clearedLines);
+	pos += sprintf(pos, "Speed:\n%10d\n", gameSpeed);
+	pos += sprintf(pos, "Score:\n%10d\n", score);
+	pos += sprintf(pos, "Cleared lines:\n%10d\n", clearedLines);
 	displayMessage(gRenderer, str, INFO_POS_X, INFO_POS_Y, FONT_SIZE, &COLOR_WHITE);
 }
 
@@ -45,27 +48,28 @@ void displayHint(){
 	static char str[MAXSL];
 	char *pos = str;
 
-	pos += sprintf(pos, "Press R to\nReset\n \n");
-
 	switch (gameStatus){
 	case GAME_Active:
-		pos += sprintf(pos, "Active\nPress P to\nPause\n");
+		pos += sprintf(pos, "Active\n");
 		break;
 	case GAME_Pause:
-		pos += sprintf(pos, "Pause\nPress P to\nContinue\n");
+		pos += sprintf(pos, "Pause\n");
 		break;
 	case GAME_Start:
-		pos += sprintf(pos, "New Game\nPress P to\nStart\n");
+		pos += sprintf(pos, "New Game\n");
 		break;
 	case GAME_End:
-		pos += sprintf(pos, "Finished\nPress P to\nRestart\n");
+		pos += sprintf(pos, "Finished\n");
 		break;
 	default:
 		str[0] = '\0';
-		break;
 	}
 
-	pos += sprintf(pos, "\n");
+	pos += sprintf(pos, " \n");
+	pos += sprintf(pos, "A/F\nUp/Down speed\n");
+	pos += sprintf(pos, "R\nReset\n");
+	pos += sprintf(pos, "P\nPause/Continue\n");
+
 	displayMessage(gRenderer, str, HINT_POS_X, HINT_POS_Y + 3 * FONT_SIZE, FONT_SIZE, &COLOR_WHITE);
 }
 
