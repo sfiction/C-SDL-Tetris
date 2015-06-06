@@ -1,5 +1,5 @@
-#ifndef _TETRIS_CENTER_H
-#define _TETRIS_CENTER_H
+#ifndef _TETRIS_WINDOW_H
+#define _TETRIS_WINDOW_H
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -8,6 +8,7 @@
 #define FONT_PATH_COURIER_NEW "src\\fonts\\cour.ttf"
 #define FONT_SIZE 14
 
+//time control
 #define TIME_ROUND 60
 #define TIME_PERIOD (1000 / TIME_ROUND)
 
@@ -67,5 +68,8 @@ extern SDL_Renderer *gRenderer;
 extern TTF_Font *Courier_New;
 
 extern Uint32 gQuit;
+
+void initWindow();
+void closeWindow();
 
 #endif

@@ -5,8 +5,8 @@
 #include <SDL_ttf.h>
 
 #include "window.h"
-#include "display.h"
 #include "game.h"
+#include "display.h"
 
 extern Uint32 roundCnt;
 

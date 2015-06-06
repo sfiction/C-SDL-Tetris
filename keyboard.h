@@ -7,4 +7,6 @@
 #include "game.h"
 #include "timer.h"
 
+void keyboard(SDL_Event *e);
+
 #endif

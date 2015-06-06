@@ -9,7 +9,9 @@
 
 #define MAXSL 200
 
+//single line
 void displaySingleLineMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0, const SDL_Color *color);
+//multiple lines
 void displayMessage(SDL_Renderer *Renderer, char *message, Uint32 x0, Uint32 y0, Uint32 fontSize, const SDL_Color *color);
 
 void displayScoreBoard();

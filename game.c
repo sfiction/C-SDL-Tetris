@@ -88,26 +88,6 @@ Uint32 isLegal(ttsItem *t){
 	return 1;
 }
 
-ttsItem getItem(){
-	ttsItem t;
-	t.id = rand() % SHAPE_N;
-	t.x = 0;
-	t.y = rand() % (PLAY_COL_N - getShapeWidth(t.id) + 1);
-	t.color = getShapeColor(t.id);
-	return t;
-}
-
-ttsItem getLegalItem(){
-	static Uint32 cnt;
-	ttsItem t;
-	cnt = 0;
-	do{
-		t = getItem();
-	}while (!isLegal(&t) && ++cnt < 20);
-	t.x = -1;
-	return t;
-}
-
 Uint32 rotateClock(ttsItem *t){
 	t->id = getRotatedClockShape(t->id);
 	if (isLegal(t))
@@ -189,6 +169,26 @@ void clearLines(){
 		++cntLines;
 	score += cntLines * cntLines;
 	clearedLines += cntLines;
+}
+
+ttsItem getItem(){
+	ttsItem t;
+	t.id = rand() % SHAPE_N;
+	t.x = 0;
+	t.y = rand() % (PLAY_COL_N - getShapeWidth(t.id) + 1);
+	t.color = getShapeColor(t.id);
+	return t;
+}
+
+ttsItem getLegalItem(){
+	static Uint32 cnt;
+	ttsItem t;
+	cnt = 0;
+	do{
+		t = getItem();
+	}while (!isLegal(&t) && ++cnt < 20);
+	t.x = -1;
+	return t;
 }
 
 void getNextItem(){

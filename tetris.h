@@ -10,6 +10,13 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+/*
+ * window:
+ * game:		window
+ * display:		window	game
+ * timer:		window	game	display
+ * keyboard:	game	timer
+ */
 #include "window.h"
 #include "game.h"
 #include "display.h"
@@ -17,7 +24,6 @@
 #include "keyboard.h"
 
 void init();
-
 void close();
 
 #endif

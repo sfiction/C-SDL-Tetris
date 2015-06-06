@@ -13,7 +13,7 @@ void keyboard(SDL_Event *e){
 	else if (e->type == SDL_KEYDOWN){
 		if ((key = e->key.keysym.sym) == SDLK_ESCAPE)
 			gQuit = 1;
-		else if (key == SDLK_p){
+		else if (key == SDLK_p){//change game status by p
 			switch (gameStatus){
 			case GAME_Active:
 				gameStatus = GAME_Pause;
@@ -30,24 +30,21 @@ void keyboard(SDL_Event *e){
 				break;
 			}
 		}
-		else if (key == SDLK_r){
+		else if (key == SDLK_r){//reset
 			initGame(gameSpeed);
 			gameStatus = GAME_Active;
 		}
-		else if (key == SDLK_a || key == SDLK_f)
+		else if (key == SDLK_a || key == SDLK_f)//change speed
 			setSpeed(gameSpeed + (key == SDLK_a ? 1 : -1));
 		else if (gameStatus == GAME_Active){
-			switch (key){
-			case SDLK_SPACE:
-				moveBottom(&fallItem);
-				gameUpdate();
-				roundCnt = 1;
-				break;
+			switch (key){//move the falling item
 			case SDLK_UP:
 				rotateClock(&fallItem);
 				break;
+			case SDLK_SPACE:
+				moveBottom(&fallItem);
 			case SDLK_DOWN:
-				gameUpdate();
+				gameUpdate();//is equal to call timer
 				roundCnt = 1;
 				break;
 			case SDLK_LEFT:

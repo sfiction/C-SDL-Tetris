@@ -14,6 +14,7 @@ typedef Uint32 ttsShape;
  * 0 - 15	show the shpae
  * 16 - 19	width
  * 20 - 23	height
+ *
  *	12	13	14	15
  *	8	9	10	11
  *	4	5	6	7
@@ -23,7 +24,7 @@ typedef Uint32 ttsShape;
 #define SHAPE_ROTATE 4
 #define SHAPE_N (SHAPE_TYPE * SHAPE_ROTATE)
 
-static const constShape[SHAPE_TYPE][SHAPE_ROTATE] = {
+static const ttsShape constShape[SHAPE_TYPE][SHAPE_ROTATE] = {
 		{0x220033, 0x220033, 0x220033, 0x220033},
 		{0x411111, 0x14000f, 0x411111, 0x14000f},
 		{0x320113, 0x230047, 0x320322, 0x230071},
@@ -32,7 +33,7 @@ static const constShape[SHAPE_TYPE][SHAPE_ROTATE] = {
 		{0x320231, 0x230036, 0x320231, 0x230036},
 		{0x320232, 0x230072, 0x320131, 0x230027}};
 
-static const constShapeColor[SHAPE_TYPE] = {0x0000ff, 0x00ff00, 0x00ffff, 0xff0000, 0xff00ff, 0xffff00, 0xffffff};
+static const ttsColor constShapeColor[SHAPE_TYPE] = {0x0000ff, 0x00ff00, 0x00ffff, 0xff0000, 0xff00ff, 0xffff00, 0xffffff};
 
 typedef struct{
 	Sint32 x, y;
@@ -40,6 +41,7 @@ typedef struct{
 	Uint32 id;
 }ttsItem;
 
+//game status
 enum{
 	GAME_Active = 0,
 	GAME_Pause = 1,
@@ -47,6 +49,7 @@ enum{
 	GAME_End = 3
 };
 
+//speed control
 #define GAME_SPEED_START 2
 #define GAME_SPEED_LOWER 1
 #define GAME_SPEED_UPPER 20
@@ -57,6 +60,7 @@ extern Uint32 gameStatus;
 extern Uint32 score;
 extern Uint32 clearedLines;
 
+//play map
 extern Uint8 map[PLAY_ROW_N][PLAY_COL_N];
 extern ttsColor mapColor[PLAY_ROW_N][PLAY_COL_N];
 
@@ -77,9 +81,6 @@ inline Uint32 isOverRightSide(ttsItem *t);
 inline Uint32 isOverSide(ttsItem *t);
 Uint32 isLegal(ttsItem *t);
 
-ttsItem getItem();
-ttsItem getLegalItem();
-
 Uint32 rotateClock(ttsItem *t);
 Uint32 rotateAnti(ttsItem *t);
 Uint32 moveUp(ttsItem *t);
@@ -88,19 +89,20 @@ Uint32 moveLeft(ttsItem *t);
 Uint32 moveRight(ttsItem *t);
 void moveBottom(ttsItem *t);
 
-Uint32 isFull();
+Uint32 isFull(int i);//check a single line is full or not
 Uint32 clearSingleLine();
 void clearLines();
 
+ttsItem getItem();
+ttsItem getLegalItem();
 void getNextItem();
 void nextToFall();
-Uint32 addItemToMap(ttsItem *t);
+Uint32 addItemToMap(ttsItem *t);//draw the item on the map, the item will cover the map if there are conflicts
 
-Uint32 setSpeed(Uint32 newSpeed);
+Uint32 setSpeed(Uint32 newSpeed);//change game speed
 
 void gameUpdate();
 
 void initGame(Uint32 speed);
-void endGame();
 
 #endif
